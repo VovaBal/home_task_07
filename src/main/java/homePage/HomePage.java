@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+import java.util.Random;
+
 public class HomePage extends BasePage {
 
     public HomePage(WebDriver driver) {
@@ -35,6 +38,19 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//a[@id='logout_sidebar_link']")
     WebElement logoutButton;
+
+    @FindBy(css = "div[class='inventory_list'] div[class='inventory_item']")
+    private List<WebElement> productItems;
+
+    @FindBy(xpath = "//a/div")
+    WebElement nameRandomProduct;
+
+    @FindBy(xpath = "//div[@class='inventory_item_price']")
+    WebElement priceRandomProduct;
+
+    public String getRandomProductText() {
+        return nameRandomProduct.getText();
+    }
 
     public String getFirstProductName() {
         return productName.getText();
@@ -72,6 +88,12 @@ public class HomePage extends BasePage {
         menuButtonClick();
         logoutButtonClick();
         return new LoginPage(driver);
+    }
+
+    public WebElement getRandomElement() {
+        Random rand = new Random();
+        int index = rand.nextInt(productItems.size());
+        return productItems.get(index);
     }
 }
 

@@ -30,7 +30,7 @@ public class Home_task_07_tests {
 
     @BeforeClass
     public void Login() {
-        setup();
+       // setup();
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login("standard_user", "secret_sauce");
     }
@@ -52,6 +52,8 @@ public class Home_task_07_tests {
 
     @Test
     public void testCase_3() throws InterruptedException {
+       // driver.get("https://www.saucedemo.com/v1/index.html");
+        driver.get("https://www.saucedemo.com/v1/inventory.html");
         HomePage homePage = new HomePage(driver);
         homePage.firstProductChoose();
         ViewPage viewPage = new ViewPage(driver);
@@ -60,9 +62,18 @@ public class Home_task_07_tests {
         Assert.assertTrue(homePage.getHomePageHeaderText().contains("Products"));
     }
 
+    @Test
+    public void testRandomProducts(){
+        driver.get("https://www.saucedemo.com/v1/inventory.html");
+        HomePage homePage =new HomePage(driver);
+        homePage.getRandomElement();
+    }
+
 //    @AfterClass
 //    public void Logout() {
 //        HomePage homePage = new HomePage(driver);
 //        homePage.Logout();
 //    }
+
+
 }
