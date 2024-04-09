@@ -31,7 +31,7 @@ public class Home_task_07_tests {
 
     @BeforeClass
     public void Login() {
-       // setup();
+        // setup();
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login("standard_user", "secret_sauce");
     }
@@ -53,7 +53,7 @@ public class Home_task_07_tests {
 
     @Test
     public void testCase_3() throws InterruptedException {
-       // driver.get("https://www.saucedemo.com/v1/index.html");
+        // driver.get("https://www.saucedemo.com/v1/index.html");
         driver.get("https://www.saucedemo.com/v1/inventory.html");
         HomePage homePage = new HomePage(driver);
         homePage.firstProductChoose();
@@ -64,15 +64,27 @@ public class Home_task_07_tests {
     }
 
     @Test
-    public void testRandomProducts(){
+    public void testRandomProducts() {
         driver.get("https://www.saucedemo.com/v1/inventory.html");
-        HomePage homePage =new HomePage(driver);
+        HomePage homePage = new HomePage(driver);
         Product productExpected = new Product();
         productExpected = homePage.getRandomProduct();
         ViewPage viewPage = new ViewPage(driver);
         Product productActual = new Product();
+        productActual.setProductName(viewPage.getNameFromActualProduct());
+        productActual.setProductPrice(viewPage.getPriceFromActualProduct());
+        Assert.assertEquals(productActual.getProductName(), productExpected.getProductName());
+        Assert.assertEquals(productActual.getProductPrice(), productExpected.getProductPrice());
 
-
+//        System.out.println("Product actual name    = " + productActual.getProductName());
+//        System.out.println("Product expected name  = " + productExpected.getProductName());
+//        System.out.println("Product actual price   = " + productActual.getProductPrice());
+//        System.out.println("Product expected price = " + productExpected.getProductPrice());
+//        double expectedPrice = homePage.parseInDouble(productActual.getProductPrice());
+//        System.out.println("Digital expected price = " + expectedPrice);
+//        double actualPrice = homePage.parseInDouble(productExpected.getProductPrice());
+//        System.out.println("Digital actual price   = " + actualPrice);
+//        Assert.assertEquals(expectedPrice, actualPrice);
     }
 
 //    @AfterClass

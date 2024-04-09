@@ -108,6 +108,11 @@ public class HomePage extends BasePage {
         nameProduct.click();
         return product;
     }
+
+    public double parseInDouble(String textPriceProduct){
+        double digitalPriceProduct = Double.parseDouble(textPriceProduct);
+        return digitalPriceProduct;
+    }
 }
 
 
