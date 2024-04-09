@@ -1,6 +1,7 @@
 package com.saucedemo.uitest;
 
 import com.saucedemo.uitests.pages.cartPage.CartPage;
+import com.saucedemo.uitests.pages.products.Product;
 import homePage.HomePage;
 import login.LoginPage;
 import org.openqa.selenium.WebDriver;
@@ -66,7 +67,12 @@ public class Home_task_07_tests {
     public void testRandomProducts(){
         driver.get("https://www.saucedemo.com/v1/inventory.html");
         HomePage homePage =new HomePage(driver);
-        homePage.getRandomElement();
+        Product productExpected = new Product();
+        productExpected = homePage.getRandomProduct();
+        ViewPage viewPage = new ViewPage(driver);
+        Product productActual = new Product();
+
+
     }
 
 //    @AfterClass

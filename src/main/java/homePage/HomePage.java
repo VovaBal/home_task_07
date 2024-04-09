@@ -1,6 +1,7 @@
 package homePage;
 
 import com.saucedemo.uitests.pages.BasePage;
+import com.saucedemo.uitests.pages.products.Product;
 import login.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -43,14 +44,14 @@ public class HomePage extends BasePage {
     private List<WebElement> productItems;
 
     @FindBy(xpath = "//a/div")
-    WebElement nameRandomProduct;
+    private List<WebElement> nameProducts;
 
     @FindBy(xpath = "//div[@class='inventory_item_price']")
-    WebElement priceRandomProduct;
+    private List<WebElement> priceProducts;
 
-    public String getRandomProductText() {
-        return nameRandomProduct.getText();
-    }
+//      public String getRandomProductText() {
+//        return nameRandomProduct.getText();
+//    }
 
     public String getFirstProductName() {
         return productName.getText();
@@ -90,10 +91,22 @@ public class HomePage extends BasePage {
         return new LoginPage(driver);
     }
 
-    public WebElement getRandomElement() {
+//    public WebElement getRandomElement() {
+//        Random rand = new Random();
+//        int index = rand.nextInt(productItems.size());
+//        return productItems.get(index);
+//    }
+
+    public Product getRandomProduct() {
+        Product product = new Product();
         Random rand = new Random();
         int index = rand.nextInt(productItems.size());
-        return productItems.get(index);
+        WebElement nameProduct = nameProducts.get(index);
+        product.setProductName(nameProduct.getText());
+        String priceProduct = priceProducts.get(index).getText().replace("$","");
+        product.setProductPrice(priceProduct);
+        nameProduct.click();
+        return product;
     }
 }
 
