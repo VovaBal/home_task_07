@@ -10,17 +10,18 @@ public class CartPage extends BasePage {
     public CartPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy(xpath = "//*[@id='item_4_title_link']/div")
+
+    @FindBy(xpath = "//*[@class='inventory_item_name']")
     WebElement productNameInCart;
 
     @FindBy(xpath = "//div[@class='inventory_item_price']")
     WebElement productPriceInCart;
 
-    public String getProductNameFromCart(){
+    public String getProductNameFromCart() {
         return productNameInCart.getText();
     }
 
-    public String getProductPriceFromCart(){
+    public String getProductPriceFromCart() {
         return productPriceInCart.getText();
     }
 }

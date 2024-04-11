@@ -26,7 +26,7 @@ public class HomePage extends BasePage {
     WebElement firstProductChoose;
 
     @FindBy(xpath = "(//button[@class='btn_primary btn_inventory'])[1]")
-    WebElement addToCartButton;
+    WebElement addToCartButtonOnHomePage;
 
     @FindBy(xpath = "//*[@id='shopping_cart_container']")
     WebElement cartButton;
@@ -49,9 +49,6 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//div[@class='inventory_item_price']")
     private List<WebElement> priceProducts;
 
-//      public String getRandomProductText() {
-//        return nameRandomProduct.getText();
-//    }
 
     public String getFirstProductName() {
         return productName.getText();
@@ -66,7 +63,7 @@ public class HomePage extends BasePage {
     }
 
     public void addToCardButtonClick() {
-        addToCartButton.click();
+        addToCartButtonOnHomePage.click();
     }
 
     public void cartButtonClick() {

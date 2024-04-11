@@ -5,6 +5,7 @@ import com.saucedemo.uitests.pages.products.Product;
 import homePage.HomePage;
 import login.LoginPage;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -14,6 +15,7 @@ import org.testng.annotations.Test;
 import viewPage.ViewPage;
 
 import java.time.Duration;
+import java.util.Random;
 
 public class Home_task_07_tests {
 
@@ -61,6 +63,43 @@ public class Home_task_07_tests {
         viewPage.buttonBackClick();
         Thread.sleep(3000);
         Assert.assertTrue(homePage.getHomePageHeaderText().contains("Products"));
+    }
+
+    @Test
+    public void testCase_3_withRandomChoseProduct() {
+        driver.get("https://www.saucedemo.com/v1/inventory.html");
+        HomePage homePage = new HomePage(driver);
+        homePage.getRandomProduct();
+        ViewPage viewPage = new ViewPage(driver);
+        viewPage.buttonBackClick();
+        Assert.assertTrue(homePage.getHomePageHeaderText().contains("Products"));
+
+    }
+
+    @Test
+    public void testCase_4_withRandomChoseProductAndEnterInCart() {
+        driver.get("https://www.saucedemo.com/v1/inventory.html");
+        HomePage homePage = new HomePage(driver);
+        Product product = homePage.getRandomProduct();
+        ViewPage viewPage = new ViewPage(driver);
+        viewPage.addToCartButtonOnViewPageClick();
+        viewPage.cartIconClick();
+        CartPage cartPage = new CartPage(driver);
+
+        String productNameInCart = cartPage.getProductNameFromCart();
+        System.out.println("productNameInCart  = " + productNameInCart);
+
+        String productPriceInCart = cartPage.getProductPriceFromCart();
+        System.out.println("productPriceInCart = " + productPriceInCart);
+
+        String productName = product.getProductName();
+        System.out.println("productName = " + productName);
+
+        String productPrice = product.getProductPrice();
+        System.out.println("productPrice = " + productPrice);
+
+        Assert.assertEquals(productName, productNameInCart);
+        Assert.assertEquals(productPrice, productPriceInCart);
     }
 
     @Test
