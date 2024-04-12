@@ -3,10 +3,12 @@ package homePage;
 import com.saucedemo.uitests.pages.BasePage;
 import com.saucedemo.uitests.pages.products.Product;
 import login.LoginPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -48,6 +50,11 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//div[@class='inventory_item_price']")
     private List<WebElement> priceProducts;
+
+    @FindBy(xpath = "//*[@id='inventory_filter_container']/select")
+    public WebElement sortByElement;
+
+
 
 
     public String getFirstProductName() {
@@ -100,15 +107,27 @@ public class HomePage extends BasePage {
         int index = rand.nextInt(productItems.size());
         WebElement nameProduct = nameProducts.get(index);
         product.setProductName(nameProduct.getText());
-        String priceProduct = priceProducts.get(index).getText().replace("$","");
+        String priceProduct = priceProducts.get(index).getText().replace("$", "");
         product.setProductPrice(priceProduct);
         nameProduct.click();
         return product;
     }
 
-    public double parseInDouble(String textPriceProduct){
+    public double parseInDouble(String textPriceProduct) {
         double digitalPriceProduct = Double.parseDouble(textPriceProduct);
         return digitalPriceProduct;
+    }
+
+    public List<Product> getProducts() {
+        List<Product> products = new ArrayList<>();
+        for (WebElement product : productItems) {
+            Product simpleProduct = new Product();
+            simpleProduct.setProductName(product.findElement(By.cssSelector(".inventory_item_name")).getText());
+            simpleProduct.setProductPrice(product.findElement(By.cssSelector(".inventory_item_price"))
+                    .getText().replace("$", ""));
+            products.add(simpleProduct);
+        }
+        return products;
     }
 }
 

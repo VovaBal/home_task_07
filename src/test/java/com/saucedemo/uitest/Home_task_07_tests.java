@@ -7,14 +7,13 @@ import login.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import viewPage.ViewPage;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Random;
 
 public class Home_task_07_tests {
@@ -29,6 +28,10 @@ public class Home_task_07_tests {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         //driver.manage().window().maximize();
         driver.get("https://www.saucedemo.com/v1/index.html");
+    }
+    @AfterTest
+    public void close(){
+        driver.quit();
     }
 
     @BeforeClass
@@ -131,6 +134,14 @@ public class Home_task_07_tests {
 //        HomePage homePage = new HomePage(driver);
 //        homePage.Logout();
 //    }
+    @Test
+    public void checkSortingByPrice(){
+        driver.get("https://www.saucedemo.com/v1/inventory.html");
+        HomePage homePage = new HomePage(driver);
+        List<Product> productList = homePage.getProducts();
+        Select select = new Select(homePage.sortByElement);
+        select.selectByValue("lohi");
+    }
 
 
 }
