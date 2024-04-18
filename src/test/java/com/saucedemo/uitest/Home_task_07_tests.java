@@ -2,6 +2,7 @@ package com.saucedemo.uitest;
 
 import com.saucedemo.uitests.pages.cartPage.CartPage;
 import com.saucedemo.uitests.pages.products.Product;
+import com.saucedemo.uitests.pages.products.ProductComparator;
 import homePage.HomePage;
 import login.LoginPage;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +14,8 @@ import org.testng.annotations.*;
 import viewPage.ViewPage;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -26,13 +29,13 @@ public class Home_task_07_tests {
         driver = new ChromeDriver();
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        //driver.manage().window().maximize();
+        driver.manage().window().maximize();
         driver.get("https://www.saucedemo.com/v1/index.html");
     }
-    @AfterTest
-    public void close(){
-        driver.quit();
-    }
+//    @AfterTest
+//    public void close(){
+//        driver.quit();
+//    }
 
     @BeforeClass
     public void Login() {
@@ -80,7 +83,7 @@ public class Home_task_07_tests {
     }
 
     @Test
-    public void testCase_4_withRandomChoseProductAndEnterInCart() {
+    public void testCase_4_withRandomChoseProductAndEnterInCart() throws InterruptedException {
         driver.get("https://www.saucedemo.com/v1/inventory.html");
         HomePage homePage = new HomePage(driver);
         Product product = homePage.getRandomProduct();
@@ -129,19 +132,61 @@ public class Home_task_07_tests {
 //        Assert.assertEquals(expectedPrice, actualPrice);
     }
 
-//    @AfterClass
+    //    @AfterClass
 //    public void Logout() {
 //        HomePage homePage = new HomePage(driver);
 //        homePage.Logout();
 //    }
     @Test
-    public void checkSortingByPrice(){
+    public void checkSortingByPrice() {
         driver.get("https://www.saucedemo.com/v1/inventory.html");
         HomePage homePage = new HomePage(driver);
         List<Product> productList = homePage.getProducts();
+
         Select select = new Select(homePage.sortByElement);
         select.selectByValue("lohi");
+        List<Product> productListSortedByPrice = homePage.getProducts();
+        List<Product> sortedProductList = homePage.getProducts();
+
+        Assert.assertNotEquals(productList, productListSortedByPrice);
+
     }
 
+    @Test
+    public void testCase_5() {
+        driver.get("https://www.saucedemo.com/v1/inventory.html");
+        HomePage homePage = new HomePage(driver);
+        List<Product> expectedResult = homePage.getProducts();
+
+        Select select = new Select(homePage.sortByElement);
+        select.selectByValue("lohi");
+        List<Product> actualResult = homePage.getProducts();
+
+        for (Product product : actualResult) {
+            System.out.println("actualResult = " + product.getProductName() + " = " + product.getProductPrice());
+        }
+        System.out.println();
+
+        Collections.sort(expectedResult, new ProductComparator());
+
+
+        for (Product product : expectedResult) {
+            System.out.println("expectedResult  " + product.getProductName() + " = " + product.getProductPrice());
+        }
+        Assert.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void testCase_6() throws InterruptedException {
+        driver.get("https://www.saucedemo.com/v1/inventory.html");
+        HomePage homePage = new HomePage(driver);
+        ViewPage viewPage = new ViewPage(driver);
+        for (int i = 0; i < 3; i++) {
+            homePage.getRandomProduct();
+            Thread.sleep(400);
+            viewPage.addToCartButtonOnViewPageClick();
+            viewPage.buttonBackClick();
+        }
+    }
 
 }

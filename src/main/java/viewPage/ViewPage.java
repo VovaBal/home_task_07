@@ -26,7 +26,8 @@ public class ViewPage extends BasePage {
         cartIcon.click();
     }
 
-    public void addToCartButtonOnViewPageClick() {
+    public void addToCartButtonOnViewPageClick() throws InterruptedException {
+        Thread.sleep(400);
         addToCartButtonOnViewPage.click();
     }
 

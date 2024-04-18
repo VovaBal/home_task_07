@@ -1,5 +1,7 @@
 package com.saucedemo.uitests.pages.products;
 
+import java.util.Objects;
+
 public class Product {
 
     String productName;
@@ -28,5 +30,22 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public double priceInDouble(String price) {
+        return Double.parseDouble(price);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(productName, product.productName) && Objects.equals(productPrice, product.productPrice) && Objects.equals(price, product.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productName, productPrice, price);
     }
 }

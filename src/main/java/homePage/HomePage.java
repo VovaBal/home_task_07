@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -53,8 +54,6 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//*[@id='inventory_filter_container']/select")
     public WebElement sortByElement;
-
-
 
 
     public String getFirstProductName() {
@@ -113,6 +112,32 @@ public class HomePage extends BasePage {
         return product;
     }
 
+    public void addToCartRandomProducts() {
+        //  int[] numbers = {-1, -1, -1};
+        int[] numbers = {3, 5, 0};
+        Arrays.sort(numbers);
+        List<Product> products = new ArrayList<>();
+        int i = 0;
+        for (WebElement product : productItems) {
+            for (int j = 0; j < numbers.length; j++) {
+                if (numbers[j] == i) {
+                    Product simpleProduct = new Product();
+                    simpleProduct.setProductName(product.findElement(By.cssSelector(".inventory_item_name")).getText());
+                    simpleProduct.setProductPrice(product.findElement(By.cssSelector(".inventory_item_price"))
+                            .getText().replace("$", ""));
+                    simpleProduct.setPrice(Double.parseDouble(product.findElement(By.cssSelector(".inventory_item_price"))
+                            .getText().replace("$", "")));
+                    products.add(simpleProduct);
+                    product.findElement(By.cssSelector("btn_primary btn_inventory")).click();
+                } else break;
+            }
+
+        }
+
+
+    }
+
+
     public double parseInDouble(String textPriceProduct) {
         double digitalPriceProduct = Double.parseDouble(textPriceProduct);
         return digitalPriceProduct;
@@ -125,6 +150,8 @@ public class HomePage extends BasePage {
             simpleProduct.setProductName(product.findElement(By.cssSelector(".inventory_item_name")).getText());
             simpleProduct.setProductPrice(product.findElement(By.cssSelector(".inventory_item_price"))
                     .getText().replace("$", ""));
+            simpleProduct.setPrice(Double.parseDouble(product.findElement(By.cssSelector(".inventory_item_price"))
+                    .getText().replace("$", "")));
             products.add(simpleProduct);
         }
         return products;
