@@ -3,6 +3,7 @@ package com.saucedemo.uitest;
 import com.saucedemo.uitests.pages.cartPage.CartPage;
 import com.saucedemo.uitests.pages.products.Product;
 import com.saucedemo.uitests.pages.products.ProductComparator;
+
 import homePage.HomePage;
 import login.LoginPage;
 import org.openqa.selenium.WebDriver;
@@ -120,16 +121,6 @@ public class Home_task_07_tests {
         productActual.setProductPrice(viewPage.getPriceFromActualProduct());
         Assert.assertEquals(productActual.getProductName(), productExpected.getProductName());
         Assert.assertEquals(productActual.getProductPrice(), productExpected.getProductPrice());
-
-//        System.out.println("Product actual name    = " + productActual.getProductName());
-//        System.out.println("Product expected name  = " + productExpected.getProductName());
-//        System.out.println("Product actual price   = " + productActual.getProductPrice());
-//        System.out.println("Product expected price = " + productExpected.getProductPrice());
-//        double expectedPrice = homePage.parseInDouble(productActual.getProductPrice());
-//        System.out.println("Digital expected price = " + expectedPrice);
-//        double actualPrice = homePage.parseInDouble(productExpected.getProductPrice());
-//        System.out.println("Digital actual price   = " + actualPrice);
-//        Assert.assertEquals(expectedPrice, actualPrice);
     }
 
     //    @AfterClass
@@ -187,6 +178,20 @@ public class Home_task_07_tests {
             viewPage.addToCartButtonOnViewPageClick();
             viewPage.buttonBackClick();
         }
+    }
+
+    @Test
+    public void testCase_7()  {
+        driver.get("https://www.saucedemo.com/v1/inventory.html");
+        HomePage homePage = new HomePage(driver);
+        ViewPage viewPage = new ViewPage(driver);
+        CartPage cartPage = new CartPage(driver);
+        List<Product> productsAddedToCart = homePage.addToCartRandomProducts(3);
+        viewPage.cartIconClick();
+        List<Product> productsListInCart = cartPage.getChosenProductListFromCart();
+        Assert.assertEquals(productsAddedToCart, productsListInCart);
+
+
     }
 
 }

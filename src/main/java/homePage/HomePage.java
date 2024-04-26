@@ -8,10 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class HomePage extends BasePage {
 
@@ -54,6 +51,8 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//*[@id='inventory_filter_container']/select")
     public WebElement sortByElement;
+
+
 
 
     public String getFirstProductName() {
@@ -153,6 +152,38 @@ public class HomePage extends BasePage {
             simpleProduct.setPrice(Double.parseDouble(product.findElement(By.cssSelector(".inventory_item_price"))
                     .getText().replace("$", "")));
             products.add(simpleProduct);
+        }
+        return products;
+    }
+
+    public Set<Integer> createSetRandomInt(int lengthOfArray, int rangeForRandom) {
+        Set<Integer> numbersSet = new TreeSet<>();
+        Random random = new Random();
+        int number;
+        do {
+            number = random.nextInt(rangeForRandom);
+            numbersSet.add(number);
+        } while (numbersSet.size() < lengthOfArray);
+
+        //return numbersSet.stream().sorted().collect(Collectors.toSet());
+        return numbersSet;
+    }
+
+    public List<Product> addToCartRandomProducts(int countOfProducts) {
+        Set<Integer> numberProductsSet = createSetRandomInt(countOfProducts, productItems.size());
+
+        List<Product> products = new ArrayList<>();
+
+        for (Integer i : numberProductsSet) {
+            WebElement productWebElement = productItems.get(i);
+            Product simpleProduct = new Product();
+            simpleProduct.setProductName(productWebElement.findElement(By.cssSelector(".inventory_item_name")).getText());
+            simpleProduct.setProductPrice(productWebElement.findElement(By.cssSelector(".inventory_item_price"))
+                    .getText().replace("$", ""));
+            simpleProduct.setPrice(Double.parseDouble(productWebElement.findElement(By.cssSelector(".inventory_item_price"))
+                    .getText().replace("$", "")));
+            products.add(simpleProduct);
+            productWebElement.findElement(By.xpath(".//button[@class='btn_primary btn_inventory']")).click();
         }
         return products;
     }
